@@ -49,8 +49,15 @@ RSpec.describe Enigma do
       expect(enigma.shifts('02715', '040895')).to eq(expected)
     end
 
+    describe 'can remove and replace special characters' do
+      it 'can remove special characters from a message' do
+        expected = ["h", "l", " ", "m", "y", " ", "n", "m", "e", " ", "s", " ", "k", "v", "n"]
+        expect(enigma.remove_special_chars('h31l0 my n4me 1s k3v1n')).to eq(expected)
+      end
+    end
+
     xit '#encrypt' do
-      input = enigma.encrypt("hello world", "02715", "040895")
+      input = enigma.encrypt("Hello World", "02715", "040895")
       output = {
         encryption: "keder ohulw",
         key: "02715",
