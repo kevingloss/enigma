@@ -38,7 +38,7 @@ RSpec.describe Enigma do
       expect(enigma.letter_offsets('040895')).to eq(expected)
     end
 
-    xit 'can create the shifts using the keys and offsets' do
+    it 'can create the shifts using the keys and offsets' do
       expected = {
         A: 3,
         B: 27,
@@ -46,7 +46,7 @@ RSpec.describe Enigma do
         D: 20
       }
 
-      expect(enigma.shifts).to eq(expected)
+      expect(enigma.shifts('02715', '040895')).to eq(expected)
     end
 
     xit '#encrypt' do
