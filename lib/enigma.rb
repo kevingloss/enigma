@@ -10,6 +10,10 @@ class Enigma
   end
 
   def random_key
+    rand(99999).to_s.rjust(5, '0')
+  end
+
+  def letter_keys(key = random_key)
 
   end
 
