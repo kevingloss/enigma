@@ -7,16 +7,18 @@ RSpec.describe Enigma do
 
 
   describe 'can encrypt messages with key and date' do
-    before(:all) do
-      @enigma = Enigma.new
-    end
+    let(:enigma) {Enigma.new}
 
     it 'exists' do
-      expect(@enigma).to be_an_instance_of(Enigma)
+      expect(enigma).to be_an_instance_of(Enigma)
+    end
+
+    it 'can find todays date' do
+      expect(enigma.date_today).to eq('101121')
     end
 
     xit '#encrypt' do
-      input = @enigma.encrypt("hello world", "02715", "040895")
+      input = enigma.encrypt("hello world", "02715", "040895")
       output = {
         encryption: "keder ohulw",
         key: "02715",
