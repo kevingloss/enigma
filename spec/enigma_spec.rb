@@ -18,13 +18,8 @@ RSpec.describe Enigma do
       expect(enigma.random_key.length).to eq(5)
     end
 
-    it 'can split the key up into 4 parts' do
-      expected = {
-        a: 2,
-        b: 27,
-        c: 71,
-        d: 15
-      }
+    it 'can split the key up into 4 key parts' do
+      expected = [2, 27, 71, 15]
 
       expect(enigma.letter_keys('02715')).to eq(expected)
     end
@@ -35,6 +30,23 @@ RSpec.describe Enigma do
       # tested for current date prior to setting the variable up
       expect(enigma.date_today).to eq(date)
       expect(enigma.date_today.length).to eq(6)
+    end
+
+    it 'can split the key up into 4 offset parts' do
+      expected = [1, 0, 2, 5]
+
+      expect(enigma.letter_offsets('040895')).to eq(expected)
+    end
+
+    xit 'can create the shifts using the keys and offsets' do
+      expected = {
+        A: 3,
+        B: 27,
+        C: 73,
+        D: 20
+      }
+
+      expect(enigma.shifts).to eq(expected)
     end
 
     xit '#encrypt' do
