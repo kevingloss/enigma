@@ -14,7 +14,9 @@ class Enigma
   end
 
   def letter_keys(key = random_key)
-
+    letters = (:a..:d).to_a
+    key_shift = key.chars.each_cons(2).map {|key| key.join.to_i}
+    Hash[letters.zip(key_shift)]
   end
 
   def date_today
