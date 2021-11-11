@@ -9,11 +9,11 @@ class Enigma
     # @date = date
   end
 
-  # def random_key
-  #
-  # end
-  #
-  # def date_today
-  #   Date.today.to_s
-  # end
+  def random_key
+
+  end
+
+  def date_today
+    Date.today.strftime("%d%m%y")
+  end
 end
