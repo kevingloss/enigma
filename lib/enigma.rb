@@ -3,10 +3,8 @@ require 'date'
 class Enigma
   # attr_reader
 
-  def initialize()
-    # @message = message
-    # @key = key
-    # @date = date
+  def initialize
+    @character_set = ('a'..'z').to_a.push(' ')
   end
 
   def random_key
@@ -30,10 +28,25 @@ class Enigma
     letters = (:A..:D).to_a
     key_offsets = letter_keys(key).zip(letter_offsets(date))
     shifts = key_offsets.map {|key_offset| key_offset.sum}
-    Hash[letters.zip(shifts)]
+    letters.zip(shifts).to_h
   end
 
   def encrypt(message, key = random_key, date = date_today)
+    message = remove_special_chars(message.downcase)
+    shifts = shifts(key, date)
+  end
+
+  def remove_special_chars(message)
+    special_chars_index(message)
+    message.split(//).select {|char| char if @character_set.include?(char)}
+  end
+
+  def special_chars_index(message)
 
   end
+
+  # def encrypt_letters#(message)
+  #   index = 0
+  #
+  # end
 end
