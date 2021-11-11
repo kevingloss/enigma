@@ -13,8 +13,25 @@ RSpec.describe Enigma do
       expect(enigma).to be_an_instance_of(Enigma)
     end
 
+    it 'can randomly choose a key' do
+      expect(enigma.random_key).to be_an_instance_of(String)
+      expect(enigma.random_key.length).to eq(5)
+    end
+
+    xit 'can split the key up into 4 parts' do
+      expect(enigma.letter_keys).to be_an_instance_of(Hash)
+      expect(enigma.letter_keys.keys).to eq ['a', 'b', 'c', 'd']
+      values = enigma.letter_keys.values.all? {|value| value.class == Integer && value <= 99}
+
+      expect(values).to eq(true)
+    end
+
     it 'can find todays date' do
-      expect(enigma.date_today).to eq('101121')
+      require 'date'
+      date = Date.today.strftime("%d%m%y")
+      # tested for current date prior to setting the variable up
+      expect(enigma.date_today).to eq(date)
+      expect(enigma.date_today.length).to eq(6)
     end
 
     xit '#encrypt' do
