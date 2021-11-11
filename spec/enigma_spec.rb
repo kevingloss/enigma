@@ -18,12 +18,15 @@ RSpec.describe Enigma do
       expect(enigma.random_key.length).to eq(5)
     end
 
-    xit 'can split the key up into 4 parts' do
-      expect(enigma.letter_keys).to be_an_instance_of(Hash)
-      expect(enigma.letter_keys.keys).to eq ['a', 'b', 'c', 'd']
-      values = enigma.letter_keys.values.all? {|value| value.class == Integer && value <= 99}
+    it 'can split the key up into 4 parts' do
+      expected = {
+        a: 2,
+        b: 27,
+        c: 71,
+        d: 15
+      }
 
-      expect(values).to eq(true)
+      expect(enigma.letter_keys('02715')).to eq(expected)
     end
 
     it 'can find todays date' do
