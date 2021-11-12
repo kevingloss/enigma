@@ -12,8 +12,8 @@ RSpec.describe Message do
   end
 
   it 'has attributes' do
-    expect(message.read_file).to eq('message.txt')
-    expect(message.write_file).to eq('encrypted.txt')
+    expect(message.message).to eq('message.txt')
+    expect(message.translated_message).to eq('encrypted.txt')
     expect(message.key).to eq('02715')
     expect(message.date).to eq('040895')
   end

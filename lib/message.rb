@@ -1,24 +1,26 @@
 require 'date'
 
 class Message
-  attr_reader :read_file, :write_file, :key, :date
+  attr_reader :message, :translated_message, :key, :date
 
   # make code all of the components of a message: input, output, key, date
 
   def initialize(attributes)
-    @read_file = attributes[0]
-    @write_file = attributes[1]
+    @message = attributes[0]
+    @translated_message = attributes[1]
     @key = valid_key(attributes[2])
     @date = valid_date(attributes[3])
   end
 
   def read(file_path = attributes[0])
     read_file = File.read(file_path)
+    @message = read_file
   end
 
   #pass in the encrypted message
   def write(file_path = attributes[1], message)
     write_file = File.write(file_path, message)
+    @translated_message = write_file
   end
 
   def valid_key(key)
