@@ -32,9 +32,9 @@ RSpec.describe Enigma do
 
     it 'can find todays date' do
       require 'date'
-      date = Date.today.strftime("%d%m%y")
+      allow(enigma).to receive(:date_today).and_return('101121')
       # tested for current date prior to setting the variable up
-      expect(enigma.date_today).to eq(date)
+      expect(enigma.date_today).to eq('101121')
       expect(enigma.date_today.length).to eq(6)
     end
 
@@ -47,13 +47,6 @@ RSpec.describe Enigma do
       }
 
       expect(enigma.shifts('02715', '040895')).to eq(expected)
-    end
-
-    describe 'can remove and replace special characters' do
-      xit 'can remove special characters from a message' do
-        expected = ["h", "l", " ", "m", "y", " ", "n", "m", "e", " ", "s", " ", "k", "v", "n"]
-        expect(enigma.remove_special_chars('h31l0 my n4me 1s k3v1n')).to eq(expected)
-      end
     end
 
     it 'can encrypt letters' do
@@ -69,15 +62,51 @@ RSpec.describe Enigma do
       expect(enigma.encrypt_letters(message, shifts)).to eq(expected)
     end
 
-    it '#encrypt' do
-      input = enigma.encrypt("Hello World", "02715", "040895")
-      output = {
-        encryption: "keder ohulw",
-        key: "02715",
-        date: "040895"
-        }
+    describe 'it can encrypt' do
+      it '#encrypt' do
+        encrypted = enigma.encrypt("Hello World", "02715", "040895")
+        expected = {
+          encryption: "keder ohulw",
+          key: "02715",
+          date: "040895"
+          }
 
-      expect(input).to eq(output)
+        expect(encrypted).to eq(expected)
+      end
+
+      it 'with todays date' do
+        allow(enigma).to receive(:date_today).and_return('080989')
+
+        encrypted = enigma.encrypt("hello world", "02715")
+        expected = {
+          encryption: "rfdayaodamw",
+          key: "02715",
+          date: "080989"
+          }
+
+        expect(encrypted).to eq(expected)
+      end
+
+      it 'only needs a message' do
+        encrypted = enigma.encrypt("hello world")
+
+        expect(encrypted).to be_an_instance_of(Hash)
+        expect(encrypted[:encryption].length).to eq(11)
+        expect(encrypted[:key].length).to eq(5)
+        expect(encrypted[:date].length).to eq(6)
+
+        allow(enigma).to receive(:date_today) {'080989'}
+        allow(enigma).to receive(:random_key) {'02715'}
+
+        encrypted = enigma.encrypt("hello world")
+        expected = {
+          encryption: "rfdayaodamw",
+          key: "02715",
+          date: "080989"
+          }
+
+        expect(encrypted).to eq(expected)
+      end
     end
   end
 end
@@ -91,14 +120,8 @@ end
 # #     date: "040895"
 # #   }
 #
-# # encrypt a message with a key (uses today's date)
-# encrypted = enigma.encrypt("hello world", "02715")
-# #=> # encryption hash here
+# #
 #
 # #decrypt a message with a key (uses today's date)
 # enigma.decrypt(encrypted[:encryption], "02715")
 # #=> # decryption hash here
-#
-# # encrypt a message (generates random key and uses today's date)
-# enigma.encrypt("hello world")
-# #=> # encryption hash here
