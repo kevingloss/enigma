@@ -4,8 +4,6 @@ SimpleCov.start
 require './lib/enigma'
 
 RSpec.describe Enigma do
-
-
   describe 'can encrypt messages with key and date' do
     let(:enigma) {Enigma.new}
 
@@ -106,6 +104,19 @@ RSpec.describe Enigma do
           }
 
         expect(encrypted).to eq(expected)
+      end
+    end
+
+    describe 'it can decrypt' do
+      it 'can decrypt with all arguments' do
+        decrypted = enigma.decrypt("keder ohulw", "02715", "040895")
+        expected = {
+          decryption: "hello world",
+          key: "02715",
+          date: "040895"
+        }
+
+        expect(decrypted).to eq(expected)
       end
     end
   end
