@@ -25,20 +25,22 @@ class Enigma
   end
 
   def shifts(key, date)
-    letters = (:A..:D).to_a
+    index = (0..3).to_a
     key_offsets = letter_keys(key).zip(letter_offsets(date))
     shifts = key_offsets.map {|key_offset| key_offset.sum}
-    letters.zip(shifts).to_h
+    index.zip(shifts).to_h
   end
 
-  def remove_special_chars(message)
-    special_chars_index(message)
-    message.split(//).select {|char| char if @character_set.include?(char)}
-  end
+  # def remove_special_chars(message)
+  #   special_chars_index(message)
+  #   message.split(//).select {|char| char if @character_set.include?(char)}
+  # end
 
   def encrypt(message, key = random_key, date = date_today)
-    message = remove_special_chars(message.downcase)
+    # message = remove_special_chars(message.downcase)
+    message = message.downcase
     shifts = shifts(key, date)
+    encrypted_message = encrypt_letters(message, shifts).join
   end
 
   def special_chars_index(message)
@@ -48,22 +50,9 @@ class Enigma
   def encrypt_letters(message, shifts)
     index = 0
     message.map do |letter|
-      if index % 4 == 0
-
-        require 'pry'; binding.pry
-        index += 1
-        encrypted_char = @character_set.zip(@character_set.rotate(shifts[:A])).to_h
-        encrypted_char[letter]
-      elsif index % 4 == 1
-        index += 1
-        @character_set.zip(@character_set.rotate(shifts[:B]))
-      elsif index % 4 == 2
-        index += 1
-        @character_set.zip(@character_set.rotate(shifts[:C]))
-      elsif index % 4 == 3
-        index += 1
-        @character_set.zip(@character_set.rotate(shifts[:D]))
-      end
+      encrypted_char = @character_set.zip(@character_set.rotate(shifts[index%4])).to_h
+      index += 1
+      encrypted_char[letter]
     end
   end
 
