@@ -38,38 +38,38 @@ RSpec.describe Enigma do
       expect(enigma.date_today.length).to eq(6)
     end
 
-    it 'can create the shifts using the keys and offsets' do
+    it 'can create the shifts by index position using the keys and offsets' do
       expected = {
-        A: 3,
-        B: 27,
-        C: 73,
-        D: 20
+        0 => 3,
+        1 => 27,
+        2 => 73,
+        3 => 20
       }
 
       expect(enigma.shifts('02715', '040895')).to eq(expected)
     end
 
     describe 'can remove and replace special characters' do
-      it 'can remove special characters from a message' do
+      xit 'can remove special characters from a message' do
         expected = ["h", "l", " ", "m", "y", " ", "n", "m", "e", " ", "s", " ", "k", "v", "n"]
         expect(enigma.remove_special_chars('h31l0 my n4me 1s k3v1n')).to eq(expected)
       end
     end
 
-    xit 'can encrypt letters' do
+    it 'can encrypt letters' do
       message = ['h', 'e', 'l', 'l', 'o']
       shifts = {
-        A: 3,
-        B: 27,
-        C: 73,
-        D: 20
+        0 => 3,
+        1 => 27,
+        2 => 73,
+        3 => 20
       }
       expected = ['k', 'e', 'd', 'e', 'r']
 
       expect(enigma.encrypt_letters(message, shifts)).to eq(expected)
     end
 
-    xit '#encrypt' do
+    it '#encrypt' do
       input = enigma.encrypt("Hello World", "02715", "040895")
       output = {
         encryption: "keder ohulw",
