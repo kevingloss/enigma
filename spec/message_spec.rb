@@ -56,8 +56,6 @@ RSpec.describe Message do
       date_format = '%d%m%y'
       DateTime.strptime(date, date_format)
       true
-    rescue ArgumentError
-      false
     end
 
     date = message.valid_date(nil)
