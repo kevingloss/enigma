@@ -32,7 +32,6 @@ class Enigma
   end
 
   def encrypt(message, key = random_key, date = date_today)
-    # message = remove_special_chars(message.downcase)
     message = message.downcase.split(//)
     shifts = shifts(key, date)
     encrypted_message = encrypt_letters(message, shifts).join
@@ -56,7 +55,27 @@ class Enigma
     end
   end
 
-  # def shift_letters(shift)
-  #
-  # end
+  def decrypt(message, key, date = date_today)
+    message = message.downcase.split(//)
+    shifts = shifts(key, date)
+    decrypted_message = decrypt_letters(message, shifts).join
+    decrypted_transmission = {
+      decryption: decrypted_message,
+      key:  key,
+      date: date
+    }
+  end
+
+  def decrypt_letters(message, shifts)
+    index = 0
+    message.map do |letter|
+      if @character_set.include?(letter) == false
+        letter
+      else
+        decrypted_char = @character_set.zip(@character_set.rotate(-1 * shifts[index%4])).to_h
+        index += 1
+        decrypted_char[letter]
+      end
+    end
+  end
 end
