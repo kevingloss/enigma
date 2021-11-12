@@ -6,21 +6,19 @@ class Message
   # make code all of the components of a message: input, output, key, date
 
   def initialize(attributes)
-    @message = attributes[0]
-    @translated_message = attributes[1]
+    @message = read(attributes[0])
     @key = valid_key(attributes[2])
     @date = valid_date(attributes[3])
   end
 
   def read(file_path = attributes[0])
     read_file = File.read(file_path)
-    @message = read_file
+    @message = read_file.chomp
   end
 
   #pass in the encrypted message
   def write(file_path = attributes[1], message)
     write_file = File.write(file_path, message)
-    @translated_message = write_file
   end
 
   def valid_key(key)
