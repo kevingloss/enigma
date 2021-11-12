@@ -45,12 +45,12 @@ class Enigma
   def encrypt_letters(message, shifts)
     index = 0
     message.map do |letter|
-      if @character_set.include?(letter) == false
-        letter
-      else
+      if @character_set.include?(letter) == true
         encrypted_char = @character_set.zip(@character_set.rotate(shifts[index%4])).to_h
         index += 1
         encrypted_char[letter]
+      else
+        letter
       end
     end
   end
@@ -69,12 +69,12 @@ class Enigma
   def decrypt_letters(message, shifts)
     index = 0
     message.map do |letter|
-      if @character_set.include?(letter) == false
-        letter
-      else
+      if @character_set.include?(letter) == true
         decrypted_char = @character_set.zip(@character_set.rotate(-1 * shifts[index%4])).to_h
         index += 1
         decrypted_char[letter]
+      else
+        letter
       end
     end
   end
