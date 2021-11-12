@@ -36,6 +36,7 @@ class Message
   end
 
   def valid_date(date)
+    return @date = date_today if date == nil
     date_format = '%d%m%y'
     DateTime.strptime(date, date_format)
       @date = date
