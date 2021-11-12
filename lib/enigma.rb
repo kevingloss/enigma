@@ -31,20 +31,16 @@ class Enigma
     index.zip(shifts).to_h
   end
 
-  # def remove_special_chars(message)
-  #   special_chars_index(message)
-  #   message.split(//).select {|char| char if @character_set.include?(char)}
-  # end
-
   def encrypt(message, key = random_key, date = date_today)
     # message = remove_special_chars(message.downcase)
     message = message.downcase.split(//)
     shifts = shifts(key, date)
     encrypted_message = encrypt_letters(message, shifts).join
-  end
-
-  def special_chars_index(message)
-
+    encrypted_transmission = {
+      encryption: encrypted_message,
+      key:  key,
+      date: date
+    }
   end
 
   def encrypt_letters(message, shifts)
