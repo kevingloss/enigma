@@ -111,9 +111,11 @@ RSpec.describe Enigma do
       end
 
       it 'can decrypt with all arguments' do
-        allow(enigma).to receive(:date_today) {'080989'}
+        message = Message.new(['encrypted.txt', 'decrypted.txt', '02715'])
+        allow(message).to receive(:message) {'rfdayaodamw'}
+        allow(message).to receive(:date) {'080989'}
 
-        decrypted = enigma.decrypt("rfdayaodamw", "02715")
+        decrypted = enigma.decrypt(message.message, message.key, message.date)
         expected = {
           decryption: "hello world",
           key: "02715",
