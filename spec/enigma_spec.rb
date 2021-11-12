@@ -118,21 +118,19 @@ RSpec.describe Enigma do
 
         expect(decrypted).to eq(expected)
       end
+
+      it 'can decrypt with all arguments' do
+        allow(enigma).to receive(:date_today) {'080989'}
+
+        decrypted = enigma.decrypt("rfdayaodamw", "02715")
+        expected = {
+          decryption: "hello world",
+          key: "02715",
+          date: "080989"
+        }
+
+        expect(decrypted).to eq(expected)
+      end
     end
   end
 end
-
-# # decrypt a message with a key and date
-# enigma.decrypt("keder ohulw", "02715", "040895")
-# #=>
-# #   {
-# #     decryption: "hello world",
-# #     key: "02715",
-# #     date: "040895"
-# #   }
-#
-# #
-#
-# #decrypt a message with a key (uses today's date)
-# enigma.decrypt(encrypted[:encryption], "02715")
-# #=> # decryption hash here
