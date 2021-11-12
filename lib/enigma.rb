@@ -1,14 +1,8 @@
-require 'date'
-
 class Enigma
   # attr_reader
 
   def initialize
     @character_set = ('a'..'z').to_a.push(' ')
-  end
-
-  def random_key
-    rand(99999).to_s.rjust(5, '0')
   end
 
   def shift_keys(key)
@@ -20,10 +14,6 @@ class Enigma
     offsets.map {|offset| offset.to_i}
   end
 
-  def date_today
-    Date.today.strftime("%d%m%y")
-  end
-
   def shifts(key, date)
     index = (0..3).to_a
     key_offsets = shift_keys(key).zip(shift_offsets(date))
@@ -31,7 +21,7 @@ class Enigma
     index.zip(shifts).to_h
   end
 
-  def encrypt(message, key = random_key, date = date_today)
+  def encrypt(message, key, date)
     message = message.downcase.split(//)
     shifts = shifts(key, date)
     encrypted_message = encrypt_letters(message, shifts).join
@@ -55,7 +45,7 @@ class Enigma
     end
   end
 
-  def decrypt(message, key, date = date_today)
+  def decrypt(message, key, date)
     message = message.downcase.split(//)
     shifts = shifts(key, date)
     decrypted_message = decrypt_letters(message, shifts).join
