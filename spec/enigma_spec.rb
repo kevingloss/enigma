@@ -109,9 +109,9 @@ RSpec.describe Enigma do
 
     describe 'it can decrypt' do
       it 'can decrypt with all arguments' do
-        decrypted = enigma.decrypt("keder ohulw", "02715", "040895")
+        decrypted = enigma.decrypt("keder! ohulw!", "02715", "040895")
         expected = {
-          decryption: "hello world",
+          decryption: "hello! world!",
           key: "02715",
           date: "040895"
         }
