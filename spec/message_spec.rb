@@ -60,6 +60,9 @@ RSpec.describe Message do
       false
     end
 
+    date = message.valid_date(nil)
+    expect(valid_date?(date)).to eq(true)
+
     date = message.valid_date('djlskdjf')
     expect(valid_date?(date)).to eq(true)
 
