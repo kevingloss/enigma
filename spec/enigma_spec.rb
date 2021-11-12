@@ -21,13 +21,13 @@ RSpec.describe Enigma do
     it 'can split the key up into 4 key parts' do
       expected = [2, 27, 71, 15]
 
-      expect(enigma.letter_keys('02715')).to eq(expected)
+      expect(enigma.shift_keys('02715')).to eq(expected)
     end
 
     it 'can split the key up into 4 offset parts' do
       expected = [1, 0, 2, 5]
 
-      expect(enigma.letter_offsets('040895')).to eq(expected)
+      expect(enigma.shift_offsets('040895')).to eq(expected)
     end
 
     it 'can find todays date' do
@@ -57,14 +57,14 @@ RSpec.describe Enigma do
     end
 
     it 'can encrypt letters' do
-      message = ['h', 'e', 'l', 'l', 'o']
+      message = ['h', 'e', 'l', '!', 'l', 'o']
       shifts = {
         0 => 3,
         1 => 27,
         2 => 73,
         3 => 20
       }
-      expected = ['k', 'e', 'd', 'e', 'r']
+      expected = ['k', 'e', 'd', '!', 'e', 'r']
 
       expect(enigma.encrypt_letters(message, shifts)).to eq(expected)
     end
