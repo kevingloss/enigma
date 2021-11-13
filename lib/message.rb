@@ -11,13 +11,13 @@ class Message
     @date = valid_date(attributes[3])
   end
 
-  def read(file_path = attributes[0])
+  def read(file_path)
     read_file = File.read(file_path)
     @message = read_file.chomp
   end
 
   #pass in the encrypted message
-  def write(file_path = attributes[1], message)
+  def write(file_path, message)
     write_file = File.write(file_path, message)
   end
 
