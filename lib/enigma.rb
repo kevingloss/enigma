@@ -26,11 +26,24 @@ class Enigma
     end
   end
 
+  def shift_letters(message, shift_wheel)
+    index = 0
+    message.map do |letter|
+      if @character_set.include?(letter)
+        shifted = shift_wheel[index%4]
+        index += 1
+        shifted[letter]
+      else
+        letter
+      end
+    end
+  end
+
   def encrypt(message, key, date)
     message = message.downcase.split(//)
     shifts = shifts(key, date)
     shift_wheel = shift_wheel(shifts)
-    encrypted_message = encrypt_letters(message, shift_wheel).join
+    encrypted_message = shift_letters(message, shift_wheel).join
     encrypted_transmission = {
       encryption: encrypted_message,
       key:  key,
@@ -38,41 +51,15 @@ class Enigma
     }
   end
 
-  def encrypt_letters(message, shift_wheel)
-    index = 0
-    message.map do |letter|
-      if @character_set.include?(letter)
-        shifted = shift_wheel[index%4]
-        index += 1
-        shifted[letter]
-      else
-        letter
-      end
-    end
-  end
-
   def decrypt(message, key, date)
     message = message.downcase.split(//)
     shifts = shifts(key, date).map {|shift| shift * -1}
     shift_wheel = shift_wheel(shifts)
-    decrypted_message = decrypt_letters(message, shift_wheel).join
+    decrypted_message = shift_letters(message, shift_wheel).join
     decrypted_transmission = {
       decryption: decrypted_message,
       key:  key,
       date: date
     }
-  end
-
-  def decrypt_letters(message, shift_wheel)
-    index = 0
-    message.map do |letter|
-      if @character_set.include?(letter)
-        shifted = shift_wheel[index%4]
-        index += 1
-        shifted[letter]
-      else
-        letter
-      end
-    end
   end
 end
