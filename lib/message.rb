@@ -1,9 +1,7 @@
 require 'date'
 
 class Message
-  attr_reader :message, :translated_message, :key, :date
-
-  # make code all of the components of a message: input, output, key, date
+  attr_reader :message, :key, :date
 
   def initialize(attributes)
     @message = read(attributes[0])
@@ -16,13 +14,12 @@ class Message
     @message = read_file.chomp
   end
 
-  #pass in the encrypted message
   def write(file_path, message)
     write_file = File.write(file_path, message)
   end
 
   def valid_key(key)
-    if key == nil
+    if key.nil?
       @key = random_key
     elsif key.length == 5 && key.split(//).all? {|char| ('0'..'9').to_a.include?(char)}
       @key = key
@@ -36,12 +33,13 @@ class Message
   end
 
   def valid_date(date)
-    return @date = date_today if date == nil
-    date_format = '%d%m%y'
-    DateTime.strptime(date, date_format)
-      @date = date
-    rescue ArgumentError
+    if date.nil?
       @date = date_today
+    elsif date.length == 6 && date.split(//).all? {|char| ('0'..'9').to_a.include?(char)}
+      @date = date
+    else
+      @date = date_today
+    end
   end
 
   def date_today
