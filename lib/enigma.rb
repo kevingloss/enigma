@@ -17,7 +17,6 @@ class Enigma
     index = (0..3).to_a
     key_offsets = shift_keys(key).zip(shift_offsets(date))
     shifts = key_offsets.map {|key_offset| key_offset.sum}
-    # index.zip(shifts).to_h
   end
 
   def shift_wheel(shifts)
