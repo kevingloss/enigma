@@ -25,32 +25,35 @@ RSpec.describe Enigma do
     end
 
     it 'can create the shifts by index position using the keys and offsets' do
-      expected = {
-        0 => 3,
-        1 => 27,
-        2 => 73,
-        3 => 20
-      }
+      expected = [3, 27, 73, 20]
+      # expected = {
+      #   0 => 3,
+      #   1 => 27,
+      #   2 => 73,
+      #   3 => 20
+      # }
 
       expect(enigma.shifts('02715', '040895')).to eq(expected)
     end
 
     it 'can create the shift wheels' do
       character_set = ('a'..'z').to_a.push(' ')
+      shifts = enigma.shifts('02715', '040895')
       shift_a = character_set.zip(character_set.rotate(3)).to_h
       shift_b = character_set.zip(character_set.rotate(27)).to_h
       shift_c = character_set.zip(character_set.rotate(73)).to_h
       shift_d = character_set.zip(character_set.rotate(20)).to_h
       expected = [shift_a, shift_b, shift_c, shift_d]
 
-      expect(enigma.shift_wheel('02715', '040895')).to eq(expected)
+      expect(enigma.shift_wheel(shifts)).to eq(expected)
     end
 
     it 'can encrypt letters' do
+      shifts = enigma.shifts('02715', '040895')
       message = ['h', 'e', 'l', '!', 'l', 'o']
       expected = ['k', 'e', 'd', '!', 'e', 'r']
 
-      expect(enigma.encrypt_letters(message, enigma.shift_wheel('02715', '040895'))).to eq(expected)
+      expect(enigma.encrypt_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
     end
 
     describe 'encrypt' do
@@ -101,6 +104,14 @@ RSpec.describe Enigma do
     end
 
     describe 'it can decrypt' do
+      it 'can decrypt letters' do
+        shifts = enigma.shifts("02715", "040895").map {|shift| shift * -1}
+        message = ['k', 'e', 'd', '!', 'e', 'r']
+        expected = ['h', 'e', 'l', '!', 'l', 'o']
+
+        expect(enigma.decrypt_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
+      end
+
       it 'can decrypt with all arguments' do
         decrypted = enigma.decrypt("keder! ohulw!", "02715", "040895")
         expected = {
