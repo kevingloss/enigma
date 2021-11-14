@@ -1,5 +1,4 @@
 class Enigma
-  # attr_reader
 
   def initialize
     @character_set = ('a'..'z').to_a.push(' ')
@@ -21,10 +20,16 @@ class Enigma
     index.zip(shifts).to_h
   end
 
+  def shift_wheel(key, date)
+    shifts(key, date).map do |index, shift|
+      @character_set.zip(@character_set.rotate(shift)).to_h
+    end
+  end
+
   def encrypt(message, key, date)
     message = message.downcase.split(//)
-    shifts = shifts(key, date)
-    encrypted_message = encrypt_letters(message, shifts).join
+    shift_wheel = shift_wheel(key, date)
+    encrypted_message = encrypt_letters(message, shift_wheel).join
     encrypted_transmission = {
       encryption: encrypted_message,
       key:  key,
@@ -32,13 +37,13 @@ class Enigma
     }
   end
 
-  def encrypt_letters(message, shifts)
+  def encrypt_letters(message, shift_wheel)
     index = 0
     message.map do |letter|
-      if @character_set.include?(letter) == true
-        encrypted_char = @character_set.zip(@character_set.rotate(shifts[index%4])).to_h
+      if @character_set.include?(letter)
+        shifted = shift_wheel[index%4]
         index += 1
-        encrypted_char[letter]
+        shifted[letter]
       else
         letter
       end
@@ -59,7 +64,7 @@ class Enigma
   def decrypt_letters(message, shifts)
     index = 0
     message.map do |letter|
-      if @character_set.include?(letter) == true
+      if @character_set.include?(letter)
         decrypted_char = @character_set.zip(@character_set.rotate(-1 * shifts[index%4])).to_h
         index += 1
         decrypted_char[letter]
