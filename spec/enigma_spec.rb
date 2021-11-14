@@ -35,17 +35,22 @@ RSpec.describe Enigma do
       expect(enigma.shifts('02715', '040895')).to eq(expected)
     end
 
+    it 'can create the shift wheels' do
+      character_set = ('a'..'z').to_a.push(' ')
+      shift_a = character_set.zip(character_set.rotate(3)).to_h
+      shift_b = character_set.zip(character_set.rotate(27)).to_h
+      shift_c = character_set.zip(character_set.rotate(73)).to_h
+      shift_d = character_set.zip(character_set.rotate(20)).to_h
+      expected = [shift_a, shift_b, shift_c, shift_d]
+
+      expect(enigma.shift_wheel('02715', '040895')).to eq(expected)
+    end
+
     it 'can encrypt letters' do
       message = ['h', 'e', 'l', '!', 'l', 'o']
-      shifts = {
-        0 => 3,
-        1 => 27,
-        2 => 73,
-        3 => 20
-      }
       expected = ['k', 'e', 'd', '!', 'e', 'r']
 
-      expect(enigma.encrypt_letters(message, shifts)).to eq(expected)
+      expect(enigma.encrypt_letters(message, enigma.shift_wheel('02715', '040895'))).to eq(expected)
     end
 
     describe 'encrypt' do
@@ -84,9 +89,6 @@ RSpec.describe Enigma do
         expect(encrypted[:encryption].length).to eq(11)
         expect(encrypted[:key].length).to eq(5)
         expect(encrypted[:date].length).to eq(6)
-
-        # allow(enigma).to receive(:date) {'080989'}
-        # allow(enigma).to receive(:key) {'02715'}
 
         expected = {
           encryption: "rfdayaodamw",
