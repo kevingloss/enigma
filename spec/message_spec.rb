@@ -2,7 +2,6 @@ require 'simplecov'
 SimpleCov.start
 
 require './lib/message'
-# require './lib/enigma'
 
 RSpec.describe Message do
   let(:message) {Message.new(['message.txt', 'encrypted.txt', '02715', '040895'])}
@@ -51,37 +50,18 @@ RSpec.describe Message do
   end
 
   it 'can test for a valid date' do
-    require 'date'
-    def valid_date?(date)
-      date_format = '%d%m%y'
-      DateTime.strptime(date, date_format)
-      true
-    end
+    today = Date.today.strftime('%d%m%y')
 
-    date = message.valid_date(nil)
-    expect(valid_date?(date)).to eq(true)
-
-    date = message.valid_date('djlskdjf')
-    expect(valid_date?(date)).to eq(true)
-
-    date = message.valid_date('101121')
-    expect(valid_date?(date)).to eq(true)
-    expect(message.date).to eq('101121')
-
-    date = message.valid_date('000000')
-    expect(valid_date?(date)).to eq(true)
-
-    date = message.valid_date('131313')
-    expect(valid_date?(date)).to eq(true)
-
-    date = message.valid_date('13131321')
-    expect(valid_date?(date)).to eq(true)
+    expect(message.valid_date('101121')).to eq('101121')
+    expect(message.valid_date('dlkfjd')).to eq(today)
+    expect(message.valid_date(nil)).to eq(today)
+    expect(message.valid_date('11112021')).to eq(today)
   end
 
   it 'can find todays date' do
-    allow(message).to receive(:date_today).and_return('101121')
+    today = Date.today.strftime('%d%m%y')
     # tested for current date prior to setting the variable up
-    expect(message.date_today).to eq('101121')
+    expect(message.date_today).to eq(today)
     expect(message.date_today.length).to eq(6)
   end
 end
