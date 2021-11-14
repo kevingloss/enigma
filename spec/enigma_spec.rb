@@ -56,7 +56,7 @@ RSpec.describe Enigma do
       expect(enigma.shift_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
     end
 
-    describe 'encrypt' do
+    describe 'it can encrypt' do
       it '#encrypt' do
         encrypted = enigma.encrypt("Hello World", "02715", "040895")
         expected = {
@@ -136,6 +136,43 @@ RSpec.describe Enigma do
         }
 
         expect(decrypted).to eq(expected)
+      end
+    end
+
+    describe 'cracking' do
+      it 'can find the shifts' do
+        ciphertext = ("vjqtbeaweqihssi").downcase.split(//).reverse
+        expected = [5, 5, 14, 8]
+
+        expect(enigma.crack_shifts(ciphertext)).to eq(expected)
+      end
+
+      it 'can crack a message with message and date' do
+        expected = {
+          decryption: "hello world end",
+          date: "291018",
+          key: "08304"
+        }
+
+        cracked = enigma.crack("vjqtbeaweqihssi", "291018")
+
+        expect(cracked).to eq(expected)
+      end
+
+      it 'can crack a message with message and date today' do
+        message = Message.new(['encrypted.txt', 'cracked.txt'])
+        allow(message).to receive(:message) {"vjqtbeaweqihssi"}
+        allow(message).to receive(:date) {'291018'}
+
+        expected = {
+          decryption: "hello world end",
+          date: "291018",
+          key: "08304"
+        }
+
+        cracked = enigma.crack(message.message, message.date)
+
+        expect(cracked).to eq(expected)
       end
     end
   end
