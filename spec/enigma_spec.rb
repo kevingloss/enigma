@@ -26,12 +26,6 @@ RSpec.describe Enigma do
 
     it 'can create the shifts by index position using the keys and offsets' do
       expected = [3, 27, 73, 20]
-      # expected = {
-      #   0 => 3,
-      #   1 => 27,
-      #   2 => 73,
-      #   3 => 20
-      # }
 
       expect(enigma.shifts('02715', '040895')).to eq(expected)
     end
