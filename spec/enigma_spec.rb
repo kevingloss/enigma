@@ -48,12 +48,18 @@ RSpec.describe Enigma do
       expect(enigma.shift_wheel(shifts)).to eq(expected)
     end
 
-    it 'can encrypt letters' do
+    it 'can shift letters to encrypt or decrypt letters' do
       shifts = enigma.shifts('02715', '040895')
       message = ['h', 'e', 'l', '!', 'l', 'o']
       expected = ['k', 'e', 'd', '!', 'e', 'r']
 
-      expect(enigma.encrypt_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
+      expect(enigma.shift_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
+
+      shifts = enigma.shifts("02715", "040895").map {|shift| shift * -1}
+      message = ['k', 'e', 'd', '!', 'e', 'r']
+      expected = ['h', 'e', 'l', '!', 'l', 'o']
+
+      expect(enigma.shift_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
     end
 
     describe 'encrypt' do
@@ -109,7 +115,7 @@ RSpec.describe Enigma do
         message = ['k', 'e', 'd', '!', 'e', 'r']
         expected = ['h', 'e', 'l', '!', 'l', 'o']
 
-        expect(enigma.decrypt_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
+        expect(enigma.shift_letters(message, enigma.shift_wheel(shifts))).to eq(expected)
       end
 
       it 'can decrypt with all arguments' do
