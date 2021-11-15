@@ -147,6 +147,27 @@ RSpec.describe Enigma do
         expect(enigma.crack_shifts(ciphertext)).to eq(expected)
       end
 
+      it 'can find all key parts that will get you to the correct letter' do
+        expected = ["08", "35", "62", "89"]
+
+        expect(enigma.key_parts(14, 6)).to eq(expected)
+      end
+
+      it 'can find the only possible cracked key' do
+        a = enigma.key_parts(14, 6)
+        b = enigma.key_parts(5, 3)
+        c = enigma.key_parts(5, 2)
+        d = enigma.key_parts(8, 4)
+
+        expect(enigma.cracked_key(a, b, c, d)).to eq('08304')
+      end
+
+      it 'can find the key needed to crack the message' do
+        shifts = [14, 5, 5, 8]
+        date = "291018"
+        expect(enigma.crack_key(shifts, date)).to eq('08304')
+      end
+
       it 'can crack a message with message and date' do
         expected = {
           decryption: "hello world end",
