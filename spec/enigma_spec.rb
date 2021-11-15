@@ -141,8 +141,8 @@ RSpec.describe Enigma do
 
     describe 'cracking' do
       it 'can find the shifts' do
-        ciphertext = ("vjqtbeaweqihssi").downcase.split(//).reverse
-        expected = [5, 5, 14, 8]
+        ciphertext = ("vjqtbeaweqihssi").downcase.split(//)
+        expected = [14, 5, 5, 8]
 
         expect(enigma.crack_shifts(ciphertext)).to eq(expected)
       end
