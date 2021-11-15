@@ -11,13 +11,17 @@ RSpec.describe Message do
   end
 
   it 'has attributes' do
-    expect(message.message).to eq('Hello World')
+    read_message = File.read('message.txt').chomp
+
+    expect(message.message).to eq(read_message)
     expect(message.key).to eq('02715')
     expect(message.date).to eq('040895')
   end
 
   it 'reads from files' do
-    expect(message.read('message.txt')).to eq('Hello World')
+    read_message = File.read('message.txt').chomp
+
+    expect(message.read('message.txt')).to eq(read_message)
   end
 
   it 'writes to files' do

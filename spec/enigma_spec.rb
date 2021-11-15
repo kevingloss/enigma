@@ -71,6 +71,7 @@ RSpec.describe Enigma do
       it 'with todays date' do
         message = Message.new(['message.txt', 'encrypted.txt','02715'])
         allow(message).to receive(:date) {'080989'}
+        allow(message).to receive(:message) {'Hello World'}
 
         encrypted = enigma.encrypt(message.message, message.key, message.date)
         expected = {
@@ -86,6 +87,8 @@ RSpec.describe Enigma do
         message = Message.new(['message.txt', 'encrypted.txt'])
         allow(message).to receive(:date) {'080989'}
         allow(message).to receive(:key) {'02715'}
+        allow(message).to receive(:message) {'Hello World'}
+
         encrypted = enigma.encrypt(message.message, message.key, message.date)
 
         expect(encrypted).to be_an_instance_of(Hash)
