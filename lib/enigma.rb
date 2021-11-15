@@ -1,6 +1,9 @@
-class Enigma
+require './lib/message'
 
-  def initialize
+class Enigma < Message
+
+  def initialize(attributes)
+    super(attributes)
     @character_set = ('a'..'z').to_a.push(' ')
   end
 
